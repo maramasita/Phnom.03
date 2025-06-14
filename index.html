@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Countdown to Tomorrow 6 PM</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body, html {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    video {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+      background-size: cover;
+    }
+
+    .overlay {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      height: 100%;
+      color: #fff;
+      font-family: sans-serif;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px #000;
+    }
+
+    .timer {
+      font-size: 3rem;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 4px #000;
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 5px;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      cursor: pointer;
+      text-shadow: 1px 1px 2px #000;
+      transition: background 0.3s;
+    }
+
+    button:hover {
+      background-color: rgba(255, 255, 255, 0.4);
+    }
+  </style>
+</head>
+<body>
+  <!-- Video background -->
+  <video autoplay muted loop>
+    <source src="./img/phnom.mp4" type="video/mp4">
+    Your browser does not support the video tag.
+  </video>
+
+  <div class="overlay">
+    <h1>Countdown to Tomorrow 6 PM</h1>
+    <div class="timer" id="timer">00:00:00</div>
+    <button onclick="adminAccess()">Admin Access</button>
+  </div>
+
+  <script>
+    // Set target date to tomorrow 6 PM
+    const target = new Date();
+    target.setDate(target.getDate() + 1);
+    target.setHours(18, 0, 0, 0);
+
+    function updateTimer() {
+      const current = new Date();
+      let diff = target - current;
+
+      if (diff <= 0) {
+        window.location.href = "home.html";
+        return;
+      }
+
+      let totalSeconds = Math.floor(diff / 1000);
+      let hours = Math.floor(totalSeconds / 3600);
+      let minutes = Math.floor((totalSeconds % 3600) / 60);
+      let seconds = totalSeconds % 60;
+
+      document.getElementById("timer").textContent =
+        `${String(hours).padStart(2, '0')}:` +
+        `${String(minutes).padStart(2, '0')}:` +
+        `${String(seconds).padStart(2, '0')}`;
+    }
+
+    updateTimer();
+    setInterval(updateTimer, 1000);
+
+    function adminAccess() {
+      const pass = prompt("Enter admin password:");
+      if (pass === "03AWC") {
+        window.location.href = "home.html";
+      } else {
+        alert("Access denied!");
+      }
+    }
+  </script>
+</body>
+</html>
